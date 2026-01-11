@@ -1,50 +1,34 @@
-# 🧠 Synapse-Shell
+# Synapse-Shell
 
-> **Transform your terminal into an expert. Use local AI directly in your pipeline.**
+Synapse-Shell is a minimalist command-line interface (CLI) that acts as a bridge between standard POSIX pipes and local Large Language Models (LLMs) via the Ollama API. It is designed for system administrators and developers who need to perform semantic analysis on terminal output without leaving the shell environment.
 
-Synapse-Shell is the "interpreter" for your Linux system. It takes complex data from your commands (logs, code, tables) and explains it to you in plain English – **100% private, local, and free.**
+## Core Principles
+* **Non-Interactive Processing:** Unlike typical AI chat interfaces, Synapse-Shell focuses on one-shot command execution within a pipeline.
+* **VRAM Management:** The tool enforces 'OLLAMA_KEEP_ALIVE=0', ensuring that the model is offloaded from the GPU immediately after the inference is completed, preserving resources for other tasks.
+* **Data Sovereignty:** By utilizing local Ollama instances, sensitive system data or proprietary code remains entirely on-premises.
 
----
+## Technical Usage
+The tool reads from 'stdin' and prepends it to the user-provided prompt, allowing for context-aware processing.
 
-## 🌟 What makes Synapse-Shell special?
+### System Diagnostics
+Pipe system state information for immediate interpretation:
+`top -b -n 1 | head -n 20 | synapse-shell 'Identify processes with abnormal CPU consumption'`
 
-Instead of tediously copying error messages into a website, you just "pipe" them directly to the AI.
+### Log Filtering and Summarization
+Extract meaning from verbose log files:
+`journalctl -u ssh | tail -n 50 | synapse-shell 'List unique IP addresses and frequency of failed login attempts'`
 
-### Why you will love it:
-* **Privacy:** Your data never leaves your machine.
-* **GPU-Friendly:** The tool loads the AI, answers, and purges the VRAM immediately. Your PC stays fast.
-* **Unix-Style:** It integrates seamlessly with commands like `ls`, `grep`, or `tail`.
+### Code Analysis
+Review or refactor snippets directly from the file system:
+`cat main.c | synapse-shell 'Provide a security audit focusing on buffer overflows'`
 
----
+## Installation
+1. Ensure a local Ollama instance is accessible.
+2. Clone this repository.
+3. Run './install.sh' to create a symlink in /usr/local/bin/ and a shell alias 's'.
 
-## 💡 Cool things you can do
-
-### 🚦 The "What is happening" Check (For Beginners)
-Confused by a process list? Just ask:
-`ps aux --sort=-%mem | head -5 | s "Which program uses the most RAM and is it dangerous?"`
-
-### 🛠️ The "Script Doctor" (For Developers)
-Bash script not working? Let the AI find the bug:
-`cat my_script.sh | s "Find the error and give me the corrected code."`
-
-### 🔍 The "Command Explainer" (For Learning)
-Found a complex command online? Understand it instantly:
-`echo "find . -type f -mtime -7 -print" | s "Explain this command step by step."`
-
-### 🕵️ The "Security Sentinel"
-Check who logged into your PC:
-`last -n 5 | s "Analyze these logins. Does this look like normal activity?"`
+## Configuration
+Settings are stored in '~/.synapse-shell.conf'. You can modify the default model or specify it per execution using the '-m' flag.
 
 ---
-
-## 🚀 Installation in 60 Seconds
-
-1. **Prerequisite:** [Ollama](https://ollama.com) installed.
-2. **Install:**
-   `git clone https://github.com/axeljerabek/synapse-shell.git`
-   `cd synapse-shell && chmod +x install.sh && ./install.sh`
-3. **Activate:**
-   Run `source ~/.bashrc`. Now you can just use the shortcut **`s`**!
-
----
-**Created with ❤️ by Axel Jerabek**
+Author: Axel Jerabek
