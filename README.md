@@ -1,22 +1,23 @@
 # 🧠 Synapse-Shell
 
-> **The neural link between your terminal pipes and Local LLMs.**
+> **Verwandle dein Terminal in einen Experten. Nutze lokale KI direkt in deiner Pipeline.**
 
-Synapse-Shell allows you to pipe any terminal output into local LLMs via Ollama. It is built for speed, privacy, and extreme resource efficiency.
+Synapse-Shell ist der Dolmetscher für dein Linux-System. Erkläre Logs, Code und Tabellen in einfacher Sprache.
 
-## 💡 Usage Examples
+## 🌟 Highlights
+* **Privat:** 100% lokal auf deinem Rechner.
+* **Schnell:** Purged VRAM sofort nach der Antwort.
+* **Einfach:** Nutze das Kürzel 's' in deiner Pipe.
 
-### 🔍 System Analysis
-`ps aux --sort=-%cpu | head -5 | synapse-shell "Explain the top resource consumers"`
+## 💡 Beispiele
+### 🚦 System-Check
+ps aux | head -5 | s 'Wer braucht hier am meisten RAM?'
 
-### 🛡️ Security Audit
-`tail -n 20 /var/log/auth.log | synapse-shell "Any suspicious login attempts?"`
+### 🛠️ Script-Hilfe
+cat script.sh | s 'Finde den Fehler in diesem Skript.'
 
-### 💻 Coding
-`cat script.sh | synapse-shell "Add error handling to this script"`
-
-## 🛠️ Installation
-`./install.sh`
+## 🚀 Installation
+chmod +x install.sh && ./install.sh
 
 ---
-*Created by Axel Jerabek*
+Entwickelt von Axel Jerabek
