@@ -1,34 +1,31 @@
 # Synapse-Shell
 
-Synapse-Shell is a minimalist command-line interface (CLI) that acts as a bridge between standard POSIX pipes and local Large Language Models (LLMs) via the Ollama API. It is designed for system administrators and developers who need to perform semantic analysis on terminal output without leaving the shell environment.
+Synapse-Shell is a minimalist CLI that bridges the gap between terminal pipes and local LLMs via Ollama. It turns cryptic terminal output into human-readable analysis.
 
-## Core Principles
-* **Non-Interactive Processing:** Unlike typical AI chat interfaces, Synapse-Shell focuses on one-shot command execution within a pipeline.
-* **VRAM Management:** The tool enforces 'OLLAMA_KEEP_ALIVE=0', ensuring that the model is offloaded from the GPU immediately after the inference is completed, preserving resources for other tasks.
-* **Data Sovereignty:** By utilizing local Ollama instances, sensitive system data or proprietary code remains entirely on-premises.
+---
 
-## Technical Usage
-The tool reads from 'stdin' and prepends it to the user-provided prompt, allowing for context-aware processing.
+## 🛠 What can you do with it?
 
-### System Diagnostics
-Pipe system state information for immediate interpretation:
-`top -b -n 1 | head -n 20 | synapse-shell 'Identify processes with abnormal CPU consumption'`
+### For Beginners
+* **Explain the mess:** `ls -la /etc | s 'What are the most important config files here?'`
+* **Fix errors:** `cat script.sh | s 'Find the syntax error and fix it.'`
+* **Understand commands:** `echo 'find . -mtime +30' | s 'What does this do?'`
 
-### Log Filtering and Summarization
-Extract meaning from verbose log files:
-`journalctl -u ssh | tail -n 50 | synapse-shell 'List unique IP addresses and frequency of failed login attempts'`
+### For Professionals
+* **Security Audits:** `tail -n 100 /var/log/auth.log | s 'Check for suspicious login patterns'`
+* **Refactoring:** `cat file.js | s 'Convert this to modern syntax'`
+* **System Health:** `df -h | s 'Identify disks near capacity'`
 
-### Code Analysis
-Review or refactor snippets directly from the file system:
-`cat main.c | synapse-shell 'Provide a security audit focusing on buffer overflows'`
+## ⚙️ Core Principles
+* **One-Shot Execution:** Designed for pipelines, not a chat interface.
+* **VRAM Efficiency:** Automatically purges GPU memory after inference (KEEP_ALIVE=0).
+* **100% Privacy:** Runs locally via Ollama. No data leaks.
 
-## Installation
-1. Ensure a local Ollama instance is accessible.
-2. Clone this repository.
-3. Run './install.sh' to create a symlink in /usr/local/bin/ and a shell alias 's'.
-
-## Configuration
-Settings are stored in '~/.synapse-shell.conf'. You can modify the default model or specify it per execution using the '-m' flag.
+## 🚀 Quick Start
+1. Have **Ollama** running.
+2. Run the installer:
+`git clone https://github.com/axeljerabek/synapse-shell.git`
+`cd synapse-shell && chmod +x install.sh && ./install.sh`
 
 ---
 Author: Axel Jerabek
