@@ -16,26 +16,38 @@ show_help() {
     echo " / __| | | | '_ \ / _\` | '_ \/ __|/ _ \\"
     echo " \__ \ |_| | | | | (_| | |_) \__ \  __/"
     echo " |___/\__, |_| |_|\__,_| .__/|___/\___|"
-    echo "      |___/            |_|   SHELL v1.8"
+    echo "      |___/            |_|   SHELL v1.9"
     echo -e "\033[0m"
     echo "=============================================================="
     echo "USAGE: ai [OPTIONS] \"Frage\" oder @datei"
     echo ""
     echo "FEATURES:"
-    echo "  @datei              Liest den Inhalt einer Datei ein"
-    echo "  --sys               Fügt System-Infos (OS, Pfad) hinzu"
-    echo "  --fix \"cmd\"         Analysiert den übergebenen Befehl"
-    echo "  --copy              Kopiert Code-Blöcke in die Ablage"
+    echo "  @datei              Inhalt einer Datei einlesen"
+    echo "  --sys               System-Kontext hinzufügen"
+    echo "  --fix \"cmd\"         Befehl analysieren & korrigieren"
+    echo "  --copy              Extrahiert Code in die Zwischenablage"
     echo ""
     echo "STEUERUNG:"
-    echo "  --new               Löscht das Gedächtnis"
-    echo "  --flush             VRAM Leerung (Restart Container)"
-    echo "  --config            Aktuelles Modell als Default speichern"
+    echo "  --new               Gedächtnis löschen"
+    echo "  --flush             Docker-Container & VRAM Reset"
+    echo "  --config            Aktuelles Modell dauerhaft speichern"
     echo "=============================================================="
     exit 0
 }
 
-# Hilfsfunktion System-Infos
+# --- ROBUSTNESS CHECKS (v1.9 Upgrade) ---
+if ! command -v docker >/dev/null; then
+    echo -e "\033[0;31mError: Docker ist nicht installiert.\033[0m"
+    exit 1
+fi
+
+if ! docker ps --format '{{.Names}}' | grep -q "^$CONTAINER_NAME$"; then
+    echo -e "\033[0;33mWarning: Container '$CONTAINER_NAME' läuft nicht.\033[0m"
+    echo -e "Starte Container..."
+    docker start "$CONTAINER_NAME" >/dev/null 2>&1 || { echo "Fehler: Start fehlgeschlagen."; exit 1; }
+fi
+
+# Hilfsfunktionen
 get_sys_info() {
     echo -e "\n[SYSTEM INFO]\nOS: $(uname -srm), Path: $(pwd), User: $(whoami)"
 }
@@ -54,7 +66,7 @@ while [[ "$#" -gt 0 ]]; do
         --config) echo "MODEL=\"$MODEL\"" > "$CONFIG_FILE"; echo "Config gespeichert."; exit 0 ;;
         --sys) SYS_INFO=$(get_sys_info) ;;
         --copy) COPY_TO_CLIPBOARD=true ;;
-        --fix) 
+        --fix)
             if [[ -n "$2" && "$2" != --* ]]; then
                 FIX_MODE_CMD="$2"; shift
             else
@@ -98,7 +110,12 @@ fi
 
 # Ausführung
 echo -e "\033[1;30m-- Synapse is thinking... --\033[0m"
-RESPONSE=$(docker exec -e OLLAMA_KEEP_ALIVE=0 "$CONTAINER_NAME" ollama run "$MODEL" "$FINAL_PROMPT")
+RESPONSE=$(docker exec -e OLLAMA_KEEP_ALIVE=0 "$CONTAINER_NAME" ollama run "$MODEL" "$FINAL_PROMPT" 2>&1)
+
+if [[ $RESPONSE == *"Error"* || $RESPONSE == *"failed"* ]]; then
+    echo -e "\033[0;31mOllama Error:\033[0m $RESPONSE"
+    exit 1
+fi
 
 # Ausgabe & Memory
 echo -e "$RESPONSE"
@@ -107,8 +124,11 @@ if [ -z "$FIX_MODE_CMD" ]; then
     echo "$(tail -c 4000 "$MEMORY_FILE")" > "$MEMORY_FILE"
 fi
 
-# Clipboard
+# Clipboard (v1.9 Upgrade: Nimmt den letzten Code-Block, falls mehrere existieren)
 if [ "$COPY_TO_CLIPBOARD" = true ] && command -v xclip >/dev/null; then
-    echo "$RESPONSE" | sed -n '/^```/,/^```/ p' | sed '/^```/d' | xclip -selection clipboard
-    echo -e "\033[0;32mCode kopiert.\033[0m"
+    CODE_BLOCK=$(echo "$RESPONSE" | sed -n '/^```/,/^```/ p' | sed '/^```/d' | tail -n 20)
+    if [ -n "$CODE_BLOCK" ]; then
+        echo "$CODE_BLOCK" | xclip -selection clipboard
+        echo -e "\033[0;32mCode-Block kopiert.\033[0m"
+    fi
 fi
