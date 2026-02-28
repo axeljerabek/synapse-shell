@@ -45,6 +45,13 @@ An AI-powered wrapper for the terminal, designed to bridge the gap between your 
 * **Security Check:** `ss -tulpn | s "Are any of these open ports dangerous?"`
 * **Cleanup:** `df -h | s "My disk is full, what should I delete?"`
 
+###📖 Usage Examples
+* Analyze Logs: ai --tail 50 @/var/log/syslog "Why did the service fail?"
+
+* Fix Commands: ai --fix
+
+* Refactor Code: ai @script.sh "Optimize this loop"
+
 ---
 
 ## 🚀 Installation in 60 Seconds
@@ -88,6 +95,11 @@ alias ai-fix='ai --fix "$(history 2 | head -n 1 | sed "s/^[ ]*[0-9]*[ ]*//")"'
 After adding, restart your terminal or type:
 
  source ~/.bashrc
+
+### 🧪 Testing
+* Verify your installation and AI connectivity with the built-in test suite:
+
+./test-suite.sh
 
 🔒 Privacy First
 
