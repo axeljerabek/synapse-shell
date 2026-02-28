@@ -74,7 +74,7 @@ alias ai-fix='ai --fix "$(history 2 | head -n 1 | sed "s/^[ ]*[0-9]*[ ]*//")"'
 
 After adding, restart your terminal or type:
 
- source ~/.bashrc.
+ source ~/.bashrc
 
 🔒 Privacy First
 
