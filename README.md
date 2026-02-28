@@ -72,7 +72,9 @@ Add this line to the end of your ~/.bashrc file to enable the ai-fix command:
 
 alias ai-fix='ai --fix "$(history 2 | head -n 1 | sed "s/^[ ]*[0-9]*[ ]*//")"'
 
-After adding, restart your terminal or type source ~/.bashrc.
+After adding, restart your terminal or type:
+
+ source ~/.bashrc.
 
 🔒 Privacy First
 
