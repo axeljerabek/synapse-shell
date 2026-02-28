@@ -1,50 +1,49 @@
-# 🧠 Synapse-Shell
+# 🧠 Synapse-Shell (v1.8)
 
 ### What is Synapse-Shell?
-Synapse-Shell is a lightweight bridge that connects your Linux terminal directly to local AI. It treats an AI model as a powerful command-line utility—similar to 'grep' or 'awk'.
+Synapse-Shell is a lightweight bridge that connects your Linux terminal directly to local AI via Ollama. It treats an AI model as a powerful command-line utility—similar to `grep` or `awk`, but with semantic understanding.
 
-### What does it do?
-It takes the output from any command (via pipes) and sends it to a local LLM with your instructions. The AI processes that data and returns the result directly to your terminal.
-
-### Why use this?
-* **Privacy:** 100% local via Ollama. No data leaks.
-* **VRAM Efficient:** Purges GPU memory immediately after the task.
-* **Unix-Native:** Built for pipes and automation.
+### 🚀 Key Features (New in v1.8)
+* **🧠 Session Memory:** Remembers the last interaction. Ask follow-up questions naturally.
+* **🛠️ AI-Fix Mode:** Use `ai-fix` to let the AI analyze and correct your last failed terminal command.
+* **📎 File Context:** Use `@filename` to instantly feed local files into the AI's prompt.
+* **🖥️ System Awareness:** Use `--sys` to give the AI context about your OS, user, and current path.
+* **📋 Clipboard Integration:** Use `--copy` to automatically extract and copy code blocks to your clipboard.
+* **🔋 VRAM Efficient:** Purges GPU memory (`OLLAMA_KEEP_ALIVE=0`) immediately after each task.
 
 ---
 
-## 💡 Massive Gallery of Use Cases
+## 💡 Use Cases & Examples
+
+### 🛠️ Smart Troubleshooting
+* **Fix Typos:** `lesss file.txt` -> `ai-fix` (Suggests the correct command and explains the error)
+* **Analyze Errors:** `ai --fix --copy` (Fixes the last command and puts the solution in your clipboard)
+
+### 📁 File & System Interaction
+* **Code Review:** `ai @app.py "Find potential memory leaks in this script"`
+* **Multi-File Context:** `ai @index.html @style.css "How do I link these correctly?"`
+* **Env-Specific Help:** `ai --sys "How do I install Apache?"` (AI knows if you need `apt`, `dnf`, or `brew`)
 
 ### 🔍 System Administration & DevOps
-* **Explain Load Spikes:** `(ps aux --sort=-%cpu | head -10) | s 'Who is eating my CPU and should I kill it?'`
-* **Storage Cleanup:** `df -h | s 'Identify the most critical partitions and suggest cleanup commands'`
-* **System Health:** `uptime | s 'Is this load average normal for a 4-core CPU?'`
-* **Network Audit:** `ss -tulpn | s 'Which of these open ports are potential security risks?'`
+* **Explain Load Spikes:** `(ps aux --sort=-%cpu | head -10) | s 'Who is eating my CPU?'`
+* **Network Audit:** `ss -tulpn | s 'Which ports are security risks?'`
+* **Log Analysis:** `tail -n 50 /var/log/auth.log | s 'Find failed login attempts'`
 
-### 🛡️ Security & Log Analysis
-* **Brute-Force Detection:** `tail -n 50 /var/log/auth.log | s 'Find failed login attempts and group them by IP'`
-* **Kernel Debugging:** `dmesg | tail -n 20 | s 'Explain these kernel errors in simple terms'`
-* **Docker Audits:** `docker logs my_container --tail 20 | s 'What is causing this container to crash?'`
-
-### 💻 Development & Coding
-* **Refactor Code:** `cat script.py | s 'Rewrite this using list comprehensions for better performance'`
-* **Generate Docs:** `cat function.go | s 'Write a professional Javadoc-style comment for this'`
-* **Unit Testing:** `cat api.py | s 'Write 3 edge-case tests for this endpoint using pytest'`
-* **SQL Optimization:** `echo "SELECT * FROM users WHERE id > 10" | s 'Is there a more efficient way to write this?'`
-
-### ✍️ Content & Data Processing
-* **Format Conversion:** `cat data.csv | s 'Convert this into a clean Markdown table'`
-* **Summarization:** `cat long_notes.txt | s 'Give me the 5 most important bullet points'`
-* **Translation:** `cat readme_de.md | s 'Translate this into professional English'`
-
-### 🎓 Learning the Terminal
-* **Explaining Flags:** `echo "tar -xzvf archive.tar.gz" | s 'What does each flag (x, z, v, f) actually do?'`
-* **Command Discovery:** `ls --help | s 'How do I sort this output by file size?'`
-
-## 🚀 Quick Start
-1. Have **Ollama** running.
-2. Install: `./install.sh`
-3. Use the shortcut: `cat log.txt | s 'Analyze this'`
+### 💻 Development
+* **Refactor:** `cat script.py | s 'Rewrite this for better performance'`
+* **Unit Tests:** `ai @api.py "Write 3 pytest edge-cases for this"`
 
 ---
-Author: Axel Jerabek
+
+## 🚀 Quick Start
+
+1.  **Prerequisites:** Have [Ollama](https://ollama.ai/) running.
+2.  **Install:** Run `./install.sh`
+3.  **Setup Fix-Alias:** Add this to your `~/.bashrc`:
+    ```bash
+    alias ai-fix='ai --fix "$(history 2 | head -n 1 | sed "s/^[ ]*[0-9]*[ ]*//")"'
+    ```
+4.  **Use:** `cat log.txt | s 'Analyze this'`
+
+---
+**Author:** Axel Jerabek | **Privacy:** 100% Local AI. No data leaves your machine.
