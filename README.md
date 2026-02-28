@@ -82,7 +82,7 @@ Unlike ChatGPT or Copilot, Synapse-Shell sends ZERO data to the internet. It use
 
 ________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
-Usage and output example - the AI thinking about itself:
+TESTING - Usage and output example - the AI thinking about itself:
 
 
 
