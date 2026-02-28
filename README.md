@@ -61,10 +61,13 @@ docker exec -it ollama ollama run gemma3:4b
 2. Install Synapse-Shell
 
 git clone [https://github.com/axeljerabek/synapse-shell.git](https://github.com/axeljerabek/synapse-shell.git)
+
 cd synapse-shell
+
 ./install.sh
 
 3. Enable "Smart Fix"
+
 Add this line to the end of your ~/.bashrc file to enable the ai-fix command:
 
 alias ai-fix='ai --fix "$(history 2 | head -n 1 | sed "s/^[ ]*[0-9]*[ ]*//")"'
@@ -72,6 +75,7 @@ alias ai-fix='ai --fix "$(history 2 | head -n 1 | sed "s/^[ ]*[0-9]*[ ]*//")"'
 After adding, restart your terminal or type source ~/.bashrc.
 
 🔒 Privacy First
+
 Unlike ChatGPT or Copilot, Synapse-Shell sends ZERO data to the internet. It uses a local model running inside a Docker container on your own hardware. Your data, your AI, your rules.
 
 Author: Axel Jerabek | Version: 1.8 "The Intelligence Update"
