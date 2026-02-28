@@ -1,4 +1,4 @@
-# 🧠 Synapse-Shell (v1.8)
+# 🧠 Synapse-Shell (v1.9)
 
 ### 🚀 What is Synapse-Shell?
 Imagine having a **private ChatGPT** living directly inside your Linux Terminal. 
