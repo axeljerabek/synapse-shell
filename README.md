@@ -71,14 +71,14 @@ docker run -d \
 
 (Note: Remove --gpus all if you don't have an NVIDIA GPU).
 
-Download the Model:
+### Download the Model:
 We recommend the lightweight Gemma 3 (4b) model:
 
 docker exec -it ollama ollama run gemma3:4b
 
 (Type /exit once the download is finished).
 
-2. Install Synapse-Shell
+### 2. Install Synapse-Shell
 
 git clone [https://github.com/axeljerabek/synapse-shell.git](https://github.com/axeljerabek/synapse-shell.git)
 
@@ -86,7 +86,7 @@ cd synapse-shell
 
 ./install.sh
 
-3. Enable "Smart Fix"
+### 3. Enable "Smart Fix"
 
 Add this line to the end of your ~/.bashrc file to enable the ai-fix command:
 
@@ -101,7 +101,8 @@ After adding, restart your terminal or type:
 
 ./test-suite.sh
 
-🔒 Privacy First
+
+### 🔒 Privacy First
 
 Unlike ChatGPT or Copilot, Synapse-Shell sends ZERO data to the internet. It uses a local model running inside a Docker container on your own hardware. Your data, your AI, your rules.
 
