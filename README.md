@@ -198,6 +198,6 @@ Do you want me to elaborate on a specific aspect of the script (e.g., the prompt
 
 
 
-Author: Axel Jerabek | Version: 1.8 "The Intelligence Update"
+Author: Axel Jerabek | Version: 1.9.2 "The Intelligence Update"
 
 
