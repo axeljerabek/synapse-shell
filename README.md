@@ -1,4 +1,4 @@
-# 🧠 Synapse-Shell (v1.9)
+# 🧠 Synapse-Shell (v1.9.2)
 
 ### 🚀 What is Synapse-Shell?
 Imagine having a **private ChatGPT** living directly inside your Linux Terminal. 
@@ -8,6 +8,19 @@ Synapse-Shell is a tiny but powerful tool that connects your command line to a l
 **Best part:** It's 100% private. Everything stays on your machine.
 
 ---
+
+An AI-powered wrapper for the terminal, designed to bridge the gap between your local shell and LLMs via Ollama.
+
+## 🛠 Features in v1.9.2
+* **Persistent Memory:** Maintains context across multiple queries for a conversational flow.
+* **System Awareness:** Use `--sys` to provide the AI with OS, Path, and User info for environment-specific commands.
+* **File Integration:** Inject file contents directly into your prompt using `@filename`.
+* **Smart File Filters (New):** Avoid context overflow by targeting specific parts of large files:
+    * `--tail [N]`: Read only the last N lines (perfect for logs).
+    * `--head [N]`: Read only the first N lines.
+* **Docker Health-Checks:** Automatically detects if the Ollama container is down and attempts to restart it.
+* **Auto-Fix:** Use `--fix` to analyze and correct the last failed command from your history.
+* **Code Extraction:** Use `--copy` to automatically pipe the AI's code blocks into your clipboard.
 
 ### 🌟 Why you'll love it
 * **🧠 It has a Memory:** It remembers what you asked a minute ago. No need to repeat yourself.
