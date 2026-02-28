@@ -40,7 +40,7 @@ Synapse-Shell is a tiny but powerful tool that connects your command line to a l
 If you don't have Ollama running yet, the easiest way is using Docker with GPU support:
 
 **Run Ollama Container:**
-```bash
+
 docker run -d \
   --name ollama \
   --restart always \
