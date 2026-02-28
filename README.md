@@ -80,6 +80,8 @@ After adding, restart your terminal or type:
 
 Unlike ChatGPT or Copilot, Synapse-Shell sends ZERO data to the internet. It uses a local model running inside a Docker container on your own hardware. Your data, your AI, your rules.
 
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
 Usage and output example:
 
 
